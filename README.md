@@ -1,3 +1,5 @@
 # Northcoders News API
 
-For instructions, please head over to [L2C NC News](https://l2c.northcoders.com/courses/be/nc-news).
+To connect to the test and dev database, create two .env files and set the variable environment to each database.
+In .env.test set the variable environment to 'nc_news_test'.
+In .env.development set the variable environment to 'nc_news'.
