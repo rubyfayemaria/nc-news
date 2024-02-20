@@ -4,7 +4,7 @@ exports.returnTopicsArray = () => {
     return db
     .query(`SELECT * FROM topics;`)
     .then((result) => {
-        const topics = result.rows
+        const topics = result.rows;
         if(!topics) {
             return Promise.reject({
                 status: 404,
