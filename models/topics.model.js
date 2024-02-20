@@ -1,4 +1,5 @@
 const db = require('../db/connection');
+const fs = require('fs');
 
 exports.returnTopicsArray = () => {
     return db
@@ -14,3 +15,4 @@ exports.returnTopicsArray = () => {
     return topics;
 })
 }
+

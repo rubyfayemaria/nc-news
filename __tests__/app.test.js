@@ -72,4 +72,22 @@ describe('/api/articles', () => {
             });
         })
     });
+    test('GET: 400 responds with correct error when given an invalid id', () => {
+        return request(app)
+        .get('/api/articles/invalidid')
+        .expect(400)
+        .then((response) => {
+            const error = response.body;
+            expect(error).toEqual({err: 400, msg: 'Bad request'});
+        })
+    });
+    test('GET: 404 responds with correct error when given an article id that does not exist', () => {
+        const id = 9999
+        return request(app)
+        .get(`/api/articles/${id}`)
+        .expect(404)
+        .then((response) => {
+            expect(response.body).toEqual({ status: 404, msg: 'Page not found.' });
+        })
+    });
 });
