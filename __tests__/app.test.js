@@ -53,7 +53,7 @@ describe('/api', () => {
 
 describe('/api/articles', () => {
     test('GET: 200 responds with article object of correct id', () => {
-        const id = 2;
+        const id = 6;
         return request(app)
         .get(`/api/articles/${id}`)
         .expect(200)

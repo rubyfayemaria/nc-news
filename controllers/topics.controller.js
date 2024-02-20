@@ -12,12 +12,8 @@ exports.getTopics = (req, res, next) => {
     })
 }
 
-exports.getAllEndPoints = (req, res, next) => {
+exports.getAllEndPoints = (req, res) => {
     fs.readFile('endpoints.json', (err, endpoints) => {
-        if(err) {
-            console.log(err)
-        }
     res.status(200).send(JSON.parse(endpoints)) 
     })
-    
 }
