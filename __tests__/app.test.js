@@ -240,7 +240,37 @@ describe('/api/articles/:article_id', () => {
         .expect(200)
         .then((response) => {
             const updatedArticle = response.body;
-            expect(updatedArticle.votes).toEqual(95);
+            expect(updatedArticle).toMatchObject({
+                article_id: 1,
+                title: 'Living in the shadow of a great man',
+                topic: 'mitch',
+                author: 'butter_bridge',
+                body: 'I find this existence challenging',
+                created_at: '2020-07-09T20:11:00.000Z',
+                votes: 95,
+                article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+            });
+        })
+    });
+    test('PATCH: 200 if not object is given, article object should remain the same', () => {
+        const id = 5;
+        const newVotes = {inc_votes: 0}
+        return request(app)
+        .patch(`/api/articles/${id}`)
+        .send(newVotes)
+        .expect(200)
+        .then((response) => {
+            const updatedArticle = response.body;
+            expect(updatedArticle).toMatchObject({
+                article_id: 5,
+                title: 'UNCOVERED: catspiracy to bring down democracy',
+                topic: 'cats',
+                author: 'rogersop',
+                body: 'Bastet walks amongst us, and the cats are taking arms!',
+                created_at: '2020-08-03T13:14:00.000Z',
+                votes: 0,
+                article_img_url: 'https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700'
+              });
         })
     });
     test('PATCH: 400 responds with appropriate error when request body contains invalid data', () => {
@@ -258,7 +288,7 @@ describe('/api/articles/:article_id', () => {
     test('PATCH: 400 responds with appropriate error when given an invalid article id', () => {
         const id = 'invalidid';
         return request(app)
-        .get(`/api/articles/${id}/comments`)
+        .patch(`/api/articles/${id}`)
         .expect(400)
         .then((response) => {
             const error = response.body;
@@ -267,8 +297,10 @@ describe('/api/articles/:article_id', () => {
     });
     test('PATCH: 404 responds with appropriate error when given an id that does not exist', () => {
         const id = 88;
+        const newVotes = {inc_votes: 8}
         return request(app)
-        .get(`/api/articles/${id}`)
+        .patch(`/api/articles/${id}`)
+        .send(newVotes)
         .expect(404)
         .then((response) => {
             const error = response.body;

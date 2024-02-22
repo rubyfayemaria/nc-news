@@ -43,8 +43,14 @@ exports.updateVotes = (article_id, newVotes) => {
     SET votes = votes + $1
     WHERE article_id = $2
     RETURNING *`, [newVotes, article_id])
-    .then((result) => {
-        const updatedArticle = result.rows[0];
-        return updatedArticle;
+    .then(({rows}) => {
+        if (rows.length === 0) {
+            return Promise.reject({
+                status: 404,
+                msg: 'Page not found.'
+            })
+        } else {
+            return rows[0];
+        }
     })
 }
