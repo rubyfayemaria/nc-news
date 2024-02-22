@@ -15,21 +15,26 @@ exports.selectArticleById = (article_id) => {
     })
 }
 
-exports.selectArticles = () => {
+exports.selectArticles = (topic = null) => {
+    let query = `
+    SELECT articles.author, 
+    articles.title, 
+    articles.article_id, 
+    articles.article_img_url, 
+    articles.created_at, 
+    articles.votes, 
+    articles.topic, 
+    COUNT (comments.comment_id)::INT AS comment_count 
+    FROM articles
+    LEFT JOIN comments ON articles.article_id = comments.article_id`
+    if (topic) {
+        query += ` WHERE articles.topic = $1`
+    }
+    query += `
+    GROUP BY articles.article_id
+    ORDER BY articles.created_at DESC;`
     return db
-    .query(`
-        SELECT articles.author, 
-        articles.title, 
-        articles.article_id, 
-        articles.article_img_url, 
-        articles.created_at, 
-        articles.votes, 
-        articles.topic, 
-        COUNT (comments.comment_id)::INT AS comment_count 
-        FROM articles
-        LEFT JOIN comments ON articles.article_id = comments.article_id
-        GROUP BY articles.article_id
-        ORDER BY articles.created_at DESC;`)
+    .query(query, topic ? [topic]: [])
     .then((result) => {
         const articles = result.rows;
         return articles;
