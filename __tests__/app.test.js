@@ -184,4 +184,48 @@ describe('/api/articles/:article_id/comments', () => {
             expect(error).toEqual({ status: 404, msg: 'Page not found.'});
         })
     });
+    test('POST: 201 ', () => {
+        const id = 1
+        const newComment = { 
+            username: 'butter_bridge', 
+            body: 'This is my comment'}
+        return request(app)
+        .post(`/api/articles/${id}/comments`)
+        .send(newComment)
+        .expect(201)
+        .then((response) => {
+            const {comment} = response.body;
+            expect(comment.author).toEqual('butter_bridge');
+            expect(comment.body).toEqual('This is my comment');
+        })
+    });
+    test('POST: 400 responds with appropriate error when request body does not meet validation requirements', () => {
+        const id = 2
+        const newComment = {
+            body: 'This is another comment'
+        }
+        return request(app)
+        .post(`/api/articles/${id}/comments`)
+        .send(newComment)
+        .expect(400)
+        .then((response) => {
+            const error = response.body;
+            expect(error).toEqual({ err: 400, msg: 'Bad request'});
+        })
+    });
+    test.only('POST: 400 responds with appropriate error when username does not exist', () => {
+        const id = 3
+        const newComment = {
+            username: 'ruby',
+            body: 'Yet another comment'
+        }
+        return request(app)
+        .post(`/api/articles/${id}/comments`)
+        .send(newComment)
+        .expect(400)
+        .then((response) => {
+            const error = response.body;
+            expect(error).toEqual({ err: 400, msg: 'Bad request'});
+        })
+    });
 });
