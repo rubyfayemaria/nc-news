@@ -1,6 +1,6 @@
 exports.handleCustomErrors = ((err, req, res, next) => {
     if(err.status) {
-        res.status(err.status).send({status: 404, msg: err.msg})
+        res.status(err.status).send({status: err.status, msg: err.msg})
     }
     else {
         next(err);
@@ -14,7 +14,7 @@ exports.handlePsqlErrors = ((err, req, res, next) => {
         res.status(400).send({err: 400, msg: 'Bad request'});
     }
     else {
-        next(err)
+        next(err);
     }
 })
 

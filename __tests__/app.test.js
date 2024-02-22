@@ -213,7 +213,7 @@ describe('/api/articles/:article_id/comments', () => {
             expect(error).toEqual({ err: 400, msg: 'Bad request'});
         })
     });
-    test.only('POST: 400 responds with appropriate error when username does not exist', () => {
+    test('POST: 400 responds with appropriate error when username does not exist', () => {
         const id = 3
         const newComment = {
             username: 'ruby',
@@ -226,6 +226,53 @@ describe('/api/articles/:article_id/comments', () => {
         .then((response) => {
             const error = response.body;
             expect(error).toEqual({ err: 400, msg: 'Bad request'});
+        })
+    });
+});
+
+describe('/api/articles/:article_id', () => {
+    test('PATCH: 200 updates article votes when given an object indicating how much to either increase or descrease the votes by', () => {
+        const id = 1;
+        const newVotes = { inc_votes: -5 }
+        return request(app)
+        .patch(`/api/articles/${id}`)
+        .send(newVotes)
+        .expect(200)
+        .then((response) => {
+            const updatedArticle = response.body;
+            expect(updatedArticle.votes).toEqual(95);
+        })
+    });
+    test('PATCH: 400 responds with appropriate error when request body contains invalid data', () => {
+        const id = 2;
+        const newVotes = { notvalid: 'data'}
+        return request(app)
+        .patch(`/api/articles/${id}`)
+        .send(newVotes)
+        .expect(400)
+        .then((response) => {
+            const error = response.body;
+            expect(error).toEqual({ err: 400, msg: 'Bad request'});
+        })
+    });
+    test('PATCH: 400 responds with appropriate error when given an invalid article id', () => {
+        const id = 'invalidid';
+        return request(app)
+        .get(`/api/articles/${id}/comments`)
+        .expect(400)
+        .then((response) => {
+            const error = response.body;
+            expect(error).toEqual({ err: 400, msg: 'Bad request' });
+        })
+    });
+    test('PATCH: 404 responds with appropriate error when given an id that does not exist', () => {
+        const id = 88;
+        return request(app)
+        .get(`/api/articles/${id}`)
+        .expect(404)
+        .then((response) => {
+            const error = response.body;
+            expect(error).toEqual({ status: 404, msg: 'Page not found.'});
         })
     });
 });
