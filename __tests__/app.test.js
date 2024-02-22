@@ -276,3 +276,32 @@ describe('/api/articles/:article_id', () => {
         })
     });
 });
+
+describe('/api/comments/:comment_id', () => {
+    test('DELETE: 204 deletes commen by comment id', () => {
+        const id = 4;
+        return request(app)
+        .delete(`/api/comments/${id}`)
+        .expect(204)
+    });
+    test('DELETE: 404 responds with appropriate error when given an id that does not exist', () => {
+        const id = 146;
+        return request(app)
+        .delete(`/api/comments/${id}`)
+        .expect(404)
+        .then((response) => {
+            const error = response.body;
+            expect(error).toEqual({ status: 404, msg: 'comment not found'});
+        })
+    });
+    test('DELETE: 400 responds with appropriate error when given an invalid id', () => {
+        const id = 'notvalid';
+        return request(app)
+        .delete(`/api/comments/${id}`)
+        .expect(400)
+        .then((response) => {
+            const error = response.body;
+            expect(error).toEqual({ err: 400, msg: 'Bad request'});
+        })
+    });
+});
