@@ -152,6 +152,16 @@ describe('/api/articles', () => {
             })
         })
     });
+    test('GET: 404 responds with correct error when given a query that does not exist', () => {
+        const topic = 'trains';
+        return request(app)
+        .get(`/api/articles?topic=${topic}`)
+        .expect(404)
+        .then((response) => {
+            const error = response.body;
+            expect(error).toEqual({status: 404, msg: 'Page not found.'});
+        })
+    });
 });
 
 describe('/api/articles/:article_id/comments', () => {

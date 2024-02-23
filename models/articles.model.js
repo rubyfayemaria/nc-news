@@ -37,7 +37,14 @@ exports.selectArticles = (topic = null) => {
     .query(query, topic ? [topic]: [])
     .then((result) => {
         const articles = result.rows;
-        return articles;
+        if (articles.length === 0) {
+            return Promise.reject({
+                status: 404,
+                msg: 'Page not found.'
+            })
+        } else {
+            return articles;
+        }
     })
 }
 
