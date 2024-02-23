@@ -53,7 +53,7 @@ describe('/api', () => {
 
 describe('/api/articles', () => {
     test('GET: 200 responds with article object of correct id', () => {
-        const id = 6;
+        const id = 1;
         return request(app)
         .get(`/api/articles/${id}`)
         .expect(200)
@@ -63,12 +63,13 @@ describe('/api/articles', () => {
             expect(article).toMatchObject({
                 author: expect.any(String),
                 title: expect.any(String),
-                article_id: expect.any(Number),
+                article_id: 1,
                 body: expect.any(String),
                 topic: expect.any(String),
                 created_at: expect.any(String),
                 votes: expect.any(Number),
-                article_img_url: expect.any(String)
+                article_img_url: expect.any(String),
+                comment_count: 11
             });
         })
     });
@@ -87,7 +88,7 @@ describe('/api/articles', () => {
         .get(`/api/articles/${id}`)
         .expect(404)
         .then((response) => {
-            expect(response.body).toEqual({ status: 404, msg: 'Page not found.' });
+            expect(response.body).toEqual({ status: 404, msg: 'Article not found.' });
         })
     });
     test('GET: 200 responds with an array of article objects', () => {
