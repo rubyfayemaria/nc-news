@@ -41,7 +41,7 @@ describe('/api/topics', () => {
 });
 
 describe('/api', () => {
-    test('should respond with JSON object of all available endpoints  on API', () => {
+    test('should respond with JSON object of all available endpoints on API', () => {
         return request(app)
         .get('/api')
         .expect(200)

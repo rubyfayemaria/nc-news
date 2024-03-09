@@ -12,12 +12,6 @@ exports.getTopics = (req, res, next) => {
     })
 }
 
-// exports.addEndpoint = (endpoint, description) => {
-//     fs.writeFile('endpoint.json', JSON.stringify(endpoint), err => {
-//         console.log('Endpoint added')
-//     })  
-// }
-
 exports.getAllEndPoints = (req, res) => {
     fs.readFile('endpoints.json', (err, endpoints) => {
         res.status(200).send(JSON.parse(endpoints)) 
