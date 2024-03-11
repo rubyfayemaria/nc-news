@@ -4,8 +4,11 @@ const { handleCustomErrors, handlePsqlErrors, handleServerErrors } = require('./
 const { getArticlesById, getArticles, updateArticle } = require('./controllers/articles.controller');
 const { getCommentsByArticleId, postComment, deleteCommentById } = require('./controllers/comments.controller');
 const { getUsers } = require('./controllers/users.controller');
+const cors = require('cors');
 const app = express();
+
 app.use(express.json());
+app.use(cors());
 
 app.get('/api/topics', getTopics)
 
