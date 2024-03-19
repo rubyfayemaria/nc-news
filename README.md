@@ -1,7 +1,7 @@
 # Northcoders News API
 
 ## Hosted Version
-[Link to Hosted Version]()
+[Link to Hosted Version](https://nc-news-mavp.onrender.com/api)
 
 ## Summary
 This is a news app which allows users to view articles and interact with them by commenting. Users can also add or deduct votes from another users comment.
